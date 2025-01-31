@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { Upload } from 'lucide-react';
+import { useState } from "react";
+import { Upload } from "lucide-react";
 
 const React_to_Blogger = () => {
-  const [htmlContent, setHtmlContent] = useState('');
-  const [cssContent, setCssContent] = useState('');
-  const [jsContent, setJsContent] = useState('');
+  const [htmlContent, setHtmlContent] = useState("");
+  const [cssContent, setCssContent] = useState("");
+  const [jsContent, setJsContent] = useState("");
   const [loading, setLoading] = useState(false);
 
   const baseTemplate = `<?xml version="1.0" encoding="UTF-8" ?>
@@ -54,22 +54,30 @@ const React_to_Blogger = () => {
         const path = file.webkitRelativePath || file.name;
 
         // Look for index.html in the root of the build folder
-        if (path.endsWith('index.html')) {
+        if (path.endsWith("index.html")) {
           htmlFile = file;
         }
         // Look for main.*.css in the static/css folder
-        else if (path.includes('static/css/') && path.includes('main.') && path.endsWith('.css')) {
+        else if (
+          path.includes("static/css/") &&
+          path.includes("main.") &&
+          path.endsWith(".css")
+        ) {
           cssFile = file;
         }
         // Look for main.*.js in the static/js folder
-        else if (path.includes('static/js/') && path.includes('main.') && path.endsWith('.js')) {
+        else if (
+          path.includes("static/js/") &&
+          path.includes("main.") &&
+          path.endsWith(".js")
+        ) {
           jsFile = file;
         }
       }
 
       if (!htmlFile || !cssFile || !jsFile) {
         throw new Error(
-          'Required files (index.html, main.*.css, main.*.js) not found in the uploaded folder.'
+          "Required files (index.html, main.*.css, main.*.js) not found in the uploaded folder."
         );
       }
 
@@ -93,8 +101,10 @@ const React_to_Blogger = () => {
       setCssContent(cssContent);
       setJsContent(jsContent);
     } catch (error) {
-      console.error('Error processing files:', error);
-      alert('Error processing files. Please ensure you uploaded the correct build folder.');
+      console.error("Error processing files:", error);
+      alert(
+        "Error processing files. Please ensure you uploaded the correct build folder."
+      );
     } finally {
       setLoading(false);
     }
@@ -102,30 +112,34 @@ const React_to_Blogger = () => {
 
   const generateBloggerTemplate = () => {
     setLoading(true);
-    try {
-      let template = baseTemplate;
-      const fullContent = `${htmlContent}<style>${cssContent}</style><script>${jsContent}</script>`;
-      template = template.replace('{FULL_CONTENT}', fullContent);
+    setTimeout(() => {
+      try {
+        let template = baseTemplate;
+        const fullContent = `${htmlContent}<style>${cssContent}</style><script>${jsContent}</script>`;
+        template = template.replace("{FULL_CONTENT}", fullContent);
 
-      const blob = new Blob([template], { type: 'text/xml' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'blogger-template.xml';
-      link.click();
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error generating template:', error);
-    } finally {
-      setLoading(false);
-    }
+        const blob = new Blob([template], { type: "text/xml" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "blogger-template.xml";
+        link.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error("Error generating template:", error);
+      } finally {
+        setLoading(false);
+      }
+    }, 10000);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-6">
-          <h1 className="text-2xl font-bold text-center mb-8">Blogger Template Converter</h1>
+          <h1 className="text-2xl font-bold text-center mb-8">
+            Blogger Template Converter
+          </h1>
           <div className="space-y-6">
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -143,10 +157,18 @@ const React_to_Blogger = () => {
             <div className="flex justify-center mt-8">
               <button
                 onClick={generateBloggerTemplate}
-                disabled={loading || (!htmlContent && !cssContent && !jsContent)}
+                disabled={
+                  loading || (!htmlContent && !cssContent && !jsContent)
+                }
                 className="flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
               >
-                {loading ? 'Converting...' : <><Upload size={20} /> Generate Blogger Template</>}
+                {loading ? (
+                  "Converting..."
+                ) : (
+                  <>
+                    <Upload size={20} /> Generate Blogger Template
+                  </>
+                )}
               </button>
             </div>
           </div>

@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/react" element={<React_to_Blogger />} />
+          <Route path="/dynamic" element={<React_to_Blogger />} />
           <Route path="/static" element={<Html_To_Blogger />} />
         </Routes>
       </Router>

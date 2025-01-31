@@ -55,8 +55,10 @@ const Html_To_Blogger = () => {
 
   const generateBloggerTemplate = () => {
     setLoading(true);
-    try {
-      let template = baseTemplate;
+    setTimeout(() => {
+      
+      try {
+        let template = baseTemplate;
       const fullContent = `${htmlContent}<style>${cssContent}</style><script>${jsContent}</script>`;
       template = template.replace('{FULL_CONTENT}', fullContent);
 
@@ -72,6 +74,7 @@ const Html_To_Blogger = () => {
     } finally {
       setLoading(false);
     }
+  }, 10000);
   };
 
   return (
